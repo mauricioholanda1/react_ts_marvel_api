@@ -1,31 +1,61 @@
+import { useEffect, useState } from "react";
+import { getCharacters } from "../../api/characters";
 import illustrationImg from "../../assets/images/marvel.svg";
-import googleIconImg from "../../assets/images/google-icon.svg";
-import { useHistory } from "react-router-dom";
+import { Button } from "../../components/Button/index";
 import "./home.scss";
-import { useAuth } from "../../hooks/useAuth";
+
+type CharacterProps = {
+  id: string;
+  name: string;
+  thumbnail: {
+    extension: string;
+    path: string;
+  };
+};
 
 export default function Home() {
-  const history = useHistory();
+  function logout() {
+    console.log("logout");
+  }
 
-  const { user, signInWithGoogle } = useAuth();
+  const [characters, setCharacters] = useState<CharacterProps[]>([]);
 
-  async function handleCreateRoom() {
-    if (!user) {
-      await signInWithGoogle();
-    }
-    history.push("/rooms/new");
+  useEffect(() => {
+    getCharacter();
+  }, []);
+
+  async function getCharacter() {
+    const response = await getCharacters();
+    console.log(response);
+    setCharacters(response);
   }
 
   return (
-    <div id="page-auth">
-      <aside></aside>
-      <main>
-        <div className="main-content">
-          <img src={illustrationImg} alt="logo" width="60%" height="60%" />
-          <button className="create-room" onClick={handleCreateRoom}>
-            <img src={googleIconImg} alt="logo google" />
-            Entrar com Google
-          </button>
+    <div id="home-page">
+      <header>
+        <div className="content">
+          <img src={illustrationImg} alt="marvel" />
+          <div>
+            <Button isOutlined onClick={logout}>
+              Logout
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      <main className="content">
+        <div className="home-title">
+          <h1>Characters</h1>
+          <h1> Search bar</h1>
+        </div>
+        <div className="home-content">
+          {characters.map((character, index) => {
+            return (
+              <div key={character.id}>
+                <span>{character.name}</span>
+              </div>
+            );
+          })}
         </div>
       </main>
     </div>
