@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getCharacters } from "../../api/characters";
 import illustrationImg from "../../assets/images/marvel.svg";
 import { Button } from "../../components/Button/index";
+import { Header } from "../../components/Header";
 import "./home.scss";
 
 type CharacterProps = {
@@ -32,17 +33,7 @@ export default function Home() {
 
   return (
     <div id="home-page">
-      <header>
-        <div className="content">
-          <img src={illustrationImg} alt="marvel" />
-          <div>
-            <Button isOutlined onClick={logout}>
-              Logout
-            </Button>
-          </div>
-        </div>
-      </header>
-
+      <Header />
       <main className="content">
         <div className="home-title">
           <h1>Characters</h1>
