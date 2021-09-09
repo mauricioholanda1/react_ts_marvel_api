@@ -10,6 +10,7 @@ type User = {
 type AuthContextType = {
   user: User | undefined;
   signInWithGoogle: () => Promise<void>;
+  signOut: () => Promise<void>;
 };
 
 type AuthContextProviderProps = {
@@ -32,6 +33,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
           throw new Error("Missing Information from google Account");
         }
 
+        console.log("user data", displayName, photoURL, uid);
         setUser({
           id: uid,
           name: displayName,
@@ -64,8 +66,18 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     }
   }
 
+  async function signOut() {
+    if (user) {
+      setUser({
+        id: "",
+        name: "",
+        avatar: "",
+      });
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, signInWithGoogle }}>
+    <AuthContext.Provider value={{ user, signInWithGoogle, signOut }}>
       {props.children}
     </AuthContext.Provider>
   );

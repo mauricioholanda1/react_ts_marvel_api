@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { getCharacters } from "../../api/characters";
-import illustrationImg from "../../assets/images/marvel.svg";
-import { Button } from "../../components/Button/index";
 import { Header } from "../../components/Header";
 import "./home.scss";
 
@@ -15,9 +13,6 @@ type CharacterProps = {
 };
 
 export default function Home() {
-  function logout() {
-    console.log("logout");
-  }
 
   const [characters, setCharacters] = useState<CharacterProps[]>([]);
 

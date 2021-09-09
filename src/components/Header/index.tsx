@@ -1,14 +1,27 @@
 import illustrationImg from "../../assets/images/marvel.svg";
 import "./header.scss";
 import { Button } from "../Button";
+import { useHistory } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 export function Header() {
+  const history = useHistory();
+  const { signOut } = useAuth();
+
+  async function logout() {
+    console.log("logout");
+    await signOut();
+    history.push("/");
+  }
+
   return (
     <header>
       <div className="content">
         <img src={illustrationImg} alt="marvel" />
         <div>
-          <Button isOutlined>Logout</Button>
+          <Button onClick={logout} isOutlined>
+            Logout
+          </Button>
         </div>
       </div>
     </header>
