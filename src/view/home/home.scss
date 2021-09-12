@@ -14,5 +14,37 @@
         color: #29292e;
       }
     }
+    .home-content {
+      display: flex;
+      flex-wrap: wrap;
+
+      .hero-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: calc(50% - 20px);
+        border: 0;
+        padding: 10px;
+        background: none;
+        cursor: pointer;
+        transition: filter 0.2s;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+        h3 {
+          font-family: "Poppins", sans-serif;
+          font-size: 20px;
+          color: #111;
+
+          z-index: 1;
+        }
+
+        &:not(:disabled):hover {
+          filter: brightness(0.9);
+        }
+      }
+    }
   }
 }

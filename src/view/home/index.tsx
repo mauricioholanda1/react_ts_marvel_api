@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getCharacters } from "../../api/characters";
 import { Header } from "../../components/Header";
 import "./home.scss";
+import { useHistory } from "react-router-dom";
 
 type CharacterProps = {
   id: string;
@@ -13,6 +14,7 @@ type CharacterProps = {
 };
 
 export default function Home() {
+  const history = useHistory();
 
   const [characters, setCharacters] = useState<CharacterProps[]>([]);
 
@@ -26,6 +28,11 @@ export default function Home() {
     setCharacters(response);
   }
 
+  async function characterDetail(character: CharacterProps) {
+    console.log(character);
+    history.push(`/characterDetail/${character.id}`);
+  }
+
   return (
     <div id="home-page">
       <Header />
@@ -37,9 +44,21 @@ export default function Home() {
         <div className="home-content">
           {characters.map((character, index) => {
             return (
-              <div key={character.id}>
-                <span>{character.name}</span>
-              </div>
+              <button
+                className="hero-card"
+                key={character.id}
+                onClick={() => characterDetail(character)}
+              >
+                <img
+                  src={
+                    character.thumbnail.path +
+                    "." +
+                    character.thumbnail.extension
+                  }
+                  alt={character.name}
+                />
+                <h3>{character.name}</h3>
+              </button>
             );
           })}
         </div>
