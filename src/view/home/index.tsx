@@ -24,12 +24,12 @@ export default function Home() {
 
   async function getCharacter() {
     const response = await getCharacters();
-    console.log(response);
+   
     setCharacters(response);
   }
 
   async function characterDetail(character: CharacterProps) {
-    console.log(character);
+
     history.push(`/characterDetail/${character.id}`);
   }
 

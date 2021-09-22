@@ -8,7 +8,10 @@ export async function getCharacters(): Promise<any> {
 
 export async function getCharactersInfo(characterId: string): Promise<any> {
   const response = await api.get(`/v1/public/characters/${characterId}`);
-  const { results } = response.data;
-  console.log("getCharactersInfo", results);
-  return results;
+  const characterData = response.data.data.results[0];
+  return characterData;
+}
+export async function getExtraInfo(collectionURI: string): Promise<any> {
+  const response = await api.get(collectionURI);
+  return response.data.data.results[0];
 }

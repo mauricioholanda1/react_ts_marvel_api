@@ -9,7 +9,6 @@ export function Header() {
   const { signOut } = useAuth();
 
   async function logout() {
-    console.log("logout");
     await signOut();
     history.push("/");
   }
@@ -17,7 +16,11 @@ export function Header() {
   return (
     <header>
       <div className="content">
-        <img src={illustrationImg} alt="marvel" />
+        <img
+          src={illustrationImg}
+          alt="marvel"
+          onClick={() => history.push("/home")}
+        />
         <div>
           <Button onClick={logout} isOutlined>
             Logout

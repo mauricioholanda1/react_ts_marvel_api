@@ -10,7 +10,7 @@ export function Home() {
 
   async function getCharacter() {
     const response = await getCharacters();
-    console.log(response);
+
     setCharacters(response);
   }
 
