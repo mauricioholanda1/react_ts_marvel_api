@@ -2,7 +2,8 @@ import { Header } from "../../components/Header";
 import { useParams } from "react-router-dom";
 import "./characterDetail.scss";
 import { useEffect, useState } from "react";
-import { getCharactersInfo, getExtraInfo } from "../../api/characters";
+import { getCharactersInfo } from "../../api/characters";
+import ExtraInfoDetail from "./components/extraInfoDetails/extraInfoDetails";
 
 type CharacterParams = {
   id: string;
@@ -18,7 +19,7 @@ type CharacterProps = {
   };
   comics: {
     available: number;
-    items: [];
+    items: [{ resourceURI: string }];
   };
   series: {
     available: number;
@@ -31,20 +32,10 @@ type CharacterProps = {
   };
 };
 
-type ExtraDataProps = {
-  id: number;
-  description: string;
-  thumbnail: {
-    extension: string;
-    path: string;
-  };
-};
-
 export default function CharacterDetail() {
   const params = useParams<CharacterParams>();
   const [character, setCharacter] = useState<CharacterProps>();
-  const [extraData, setExtraData] = useState<ExtraDataProps[]>([]);
-  console.log(extraData);
+
   const characterId = params.id;
 
   useEffect(() => {
@@ -54,22 +45,6 @@ export default function CharacterDetail() {
   async function getChar(id: string) {
     const response = await getCharactersInfo(id);
     setCharacter(response);
-
-    getComics(response.comics.items);
-  }
-
-  function getComics(extraInfos: []) {
-    extraInfos.map(async (element: { resourceURI: string }) => {
-      const response = await getExtraData(element.resourceURI);
-      const { id, description, thumbnail } = response;
-      const newData = { description, thumbnail, id };
-      setExtraData((prevState) => [...prevState, newData]);
-    });
-  }
-
-  async function getExtraData(collectionURI: string) {
-    const response = await getExtraInfo(collectionURI);
-    return response;
   }
 
   if (!character) {
@@ -95,14 +70,18 @@ export default function CharacterDetail() {
           <div className="infos">
             <h1>{character.name}</h1>
             <p>{character.description}</p>
-
+            {/* 
             <p>comics: {character.comics.available}</p>
             <p>series: {character.series.available}</p>
             <p>stories: {character.stories.available}</p>
-            <p>events: {character.events.available}</p>
+            <p>events: {character.events.available}</p> */}
           </div>
         </div>
         <div className="comics"></div>
+        <p>Comics: {character.comics.available}</p>
+        {character.comics.items.map((item, index) => (
+          <ExtraInfoDetail key={index} resourceURI={item.resourceURI} />
+        ))}
       </main>
     </div>
   );

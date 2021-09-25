@@ -1,7 +1,9 @@
 import api from "../services/api";
 
-export async function getCharacters(): Promise<any> {
-  const response = await api.get("/v1/public/characters");
+export async function getCharacters(nameChar: string): Promise<any> {
+  const response = await api.get(
+    `/v1/public/characters?nameStartsWith=${nameChar}`
+  );
   const { results } = response.data.data;
   return results;
 }
