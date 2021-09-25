@@ -18,18 +18,20 @@ export default function Home() {
 
   const [characters, setCharacters] = useState<CharacterProps[]>([]);
 
+  const [nameChar, setNameChar] = useState("");
+
+  const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+
   useEffect(() => {
     getCharacter();
   }, []);
 
-  async function getCharacter() {
-    const response = await getCharacters();
-   
+  async function getCharacter(nameOrLetter: string = "") {
+    const response = await getCharacters(nameOrLetter);
     setCharacters(response);
   }
 
   async function characterDetail(character: CharacterProps) {
-
     history.push(`/characterDetail/${character.id}`);
   }
 
@@ -38,8 +40,17 @@ export default function Home() {
       <Header />
       <main className="content">
         <div className="home-title">
-          <h1>Characters</h1>
-          <h1> Search bar</h1>
+          <h1>Search </h1>
+          <input
+            type="text"
+            value={nameChar}
+            onChange={(text) => setNameChar(text.target.value)}
+          />
+          <div className="alphabet-content">
+            {alphabet.map((letter) => (
+              <button onClick={() => getCharacter(letter)}>{letter}</button>
+            ))}
+          </div>
         </div>
         <div className="home-content">
           {characters.map((character, index) => {

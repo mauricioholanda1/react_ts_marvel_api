@@ -6,12 +6,47 @@
     .home-title {
       margin: 24px 0 24px;
       display: flex;
-      align-items: center;
+
+      flex-direction: column;
 
       h1 {
         font-family: "Poppins", sans-serif;
+        font-size: 14px;
+        color: #29292e;
+      }
+
+      input {
+        font-family: "Poppins", sans-serif;
         font-size: 24px;
         color: #29292e;
+        width: 100%;
+      }
+      .alphabet-content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 24px;
+
+        button {
+          padding: 5px;
+          display: flex;
+          align-items: center;
+          font-family: "Poppins", sans-serif;
+          color: #29292e;
+          font-size: 18px;
+          border: 0;
+          padding: 10px;
+          background: none;
+          cursor: pointer;
+          transition: filter 0.2s;
+
+          &:not(:disabled):hover {
+            font-size: 20px;
+            filter: brightness(0.9);
+          }
+        }
       }
     }
     .home-content {
