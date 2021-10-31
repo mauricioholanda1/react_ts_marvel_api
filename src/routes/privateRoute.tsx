@@ -1,5 +1,5 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Route, useHistory } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 const PrivateRoute: React.FC<{
@@ -7,14 +7,28 @@ const PrivateRoute: React.FC<{
   path: string;
   exact: boolean;
 }> = (props) => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
+  const history = useHistory();
 
-  const condition = user ? true : false;
+  useEffect(() => {
+    if (!user) {
+      const uid = localStorage.getItem("id");
+      const displayName = localStorage.getItem("name");
+      const photoURL = localStorage.getItem("avatar");
+      if (uid && displayName && photoURL) {
+        setUser({
+          id: uid,
+          name: displayName,
+          avatar: photoURL,
+        });
+      } else {
+        history.push("/");
+      }
+    }
+  }, [history, setUser, user]);
 
-  return condition ? (
+  return (
     <Route path={props.path} exact={props.exact} component={props.component} />
-  ) : (
-    <Redirect to="/" />
   );
 };
 export default PrivateRoute;

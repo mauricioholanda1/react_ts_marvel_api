@@ -28,7 +28,6 @@ export default function ExtraInfoDetail({ resourceURI }: itemProps) {
     const { id, description, thumbnail, title } = response;
     const newData = { title, description, thumbnail, id };
     setExtraInfoDetail(newData);
-    console.log(newData);
     return newData;
   }
 

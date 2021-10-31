@@ -41,8 +41,6 @@ export default function CharacterDetail() {
 
   const characterId = params.id;
 
-  console.log(character);
-
   useEffect(() => {
     getChar(characterId);
   }, [characterId]);

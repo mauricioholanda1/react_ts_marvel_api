@@ -9,6 +9,7 @@ type User = {
 
 type AuthContextType = {
   user: User | undefined;
+  setUser: (user: User | undefined) => void;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
 };
@@ -20,22 +21,33 @@ type AuthContextProviderProps = {
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthContextProvider(props: AuthContextProviderProps) {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | undefined>();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         const { displayName, photoURL, uid } = user;
-
         if (!displayName || !photoURL) {
           throw new Error("Missing Information from google Account");
         }
-
         setUser({
           id: uid,
           name: displayName,
           avatar: photoURL,
         });
+      } else {
+        const uid = localStorage.getItem("id");
+        const displayName = localStorage.getItem("name");
+        const photoURL = localStorage.getItem("avatar");
+        if (uid && displayName && photoURL) {
+          setUser({
+            id: uid,
+            name: displayName,
+            avatar: photoURL,
+          });
+        } else {
+          setUser(undefined);
+        }
       }
     });
 
@@ -54,7 +66,9 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       if (!displayName || !photoURL) {
         throw new Error("Missing Information from google Account");
       }
-
+      localStorage.setItem("id", uid);
+      localStorage.setItem("name", displayName);
+      localStorage.setItem("avatar", photoURL);
       setUser({
         id: uid,
         name: displayName,
@@ -65,16 +79,15 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
 
   async function signOut() {
     if (user) {
-      setUser({
-        id: "",
-        name: "",
-        avatar: "",
-      });
+      localStorage.removeItem("id");
+      localStorage.removeItem("name");
+      localStorage.removeItem("avatar");
+      setUser(undefined);
     }
   }
 
   return (
-    <AuthContext.Provider value={{ user, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, setUser, signInWithGoogle, signOut }}>
       {props.children}
     </AuthContext.Provider>
   );
