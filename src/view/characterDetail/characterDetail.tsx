@@ -1,9 +1,10 @@
 import { Header } from "../../components/Header";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import "./characterDetail.scss";
 import { useEffect, useState } from "react";
 import { getCharactersInfo } from "../../api/characters";
 // import ExtraInfoDetail from "./components/extraInfoDetails/extraInfoDetails";
+import arrowLeft from "../../assets/images/arrow-left.svg";
 import { LoremIpsumText } from "../../components/DefaultTexts";
 
 type CharacterParams = {
@@ -34,6 +35,7 @@ type CharacterProps = {
 };
 
 export default function CharacterDetail() {
+  const history = useHistory();
   const params = useParams<CharacterParams>();
   const [character, setCharacter] = useState<CharacterProps>();
 
@@ -64,6 +66,9 @@ export default function CharacterDetail() {
   return (
     <>
       <div id="characterDetails-page">
+        <button className="button-go-back " onClick={history.goBack}>
+          <img src={arrowLeft} alt="voltar" />
+        </button>
         <main className="content">
           <div className="chart-info">
             <img

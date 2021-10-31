@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { getCharacters } from "../../api/characters";
-import { Header } from "../../components/Header";
 import "./home.scss";
 import { useHistory } from "react-router-dom";
 

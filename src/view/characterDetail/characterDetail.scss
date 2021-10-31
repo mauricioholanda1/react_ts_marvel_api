@@ -1,4 +1,21 @@
 #characterDetails-page {
+  .button-go-back {
+    display: flex;
+    padding: 10px;
+    border-radius: 50px;
+    margin: 10px;
+    background: #ea4335;
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 0;
+    transition: filter 0.2s;
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+
   main {
     max-width: 800px;
     margin: 0 auto;
