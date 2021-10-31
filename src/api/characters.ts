@@ -2,7 +2,7 @@ import api from "../services/api";
 
 export async function getCharacters(nameChar: string): Promise<any> {
   const response = await api.get(
-    `/v1/public/characters?nameStartsWith=${nameChar}`
+    `/v1/public/characters?nameStartsWith=${nameChar}&limit=20`
   );
   const { results } = response.data.data;
   return results;

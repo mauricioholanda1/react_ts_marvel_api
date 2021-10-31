@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getCharacters } from "../../api/characters";
 import "./home.scss";
 import { useHistory } from "react-router-dom";
+import { noSelected } from "../../components/DefaultTexts";
 
 type CharacterProps = {
   id: string;
@@ -21,10 +22,6 @@ export default function Home() {
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
 
-  useEffect(() => {
-    getCharacter();
-  }, []);
-
   async function getCharacter(nameOrLetter: string = "") {
     const response = await getCharacters(nameOrLetter);
     setCharacters(response);
@@ -32,6 +29,14 @@ export default function Home() {
 
   async function characterDetail(character: CharacterProps) {
     history.push(`/characterDetail/${character.id}`);
+  }
+
+  async function searchCharacter(name: string) {
+    setNameChar(name);
+    if (name.length > 2) {
+      await getCharacter(nameChar);
+    } else {
+    }
   }
 
   return (
@@ -42,7 +47,7 @@ export default function Home() {
           <input
             type="text"
             value={nameChar}
-            onChange={(text) => setNameChar(text.target.value)}
+            onChange={(text) => searchCharacter(text.target.value)}
           />
           <div className="alphabet-content">
             {alphabet.map((letter) => (
@@ -51,25 +56,27 @@ export default function Home() {
           </div>
         </div>
         <div className="home-content">
-          {characters.map((character, index) => {
-            return (
-              <button
-                className="hero-card"
-                key={character.id}
-                onClick={() => characterDetail(character)}
-              >
-                <img
-                  src={
-                    character.thumbnail.path +
-                    "." +
-                    character.thumbnail.extension
-                  }
-                  alt={character.name}
-                />
-                <h3>{character.name}</h3>
-              </button>
-            );
-          })}
+          {characters.length === 0
+            ? noSelected
+            : characters.map((character, index) => {
+                return (
+                  <button
+                    className="hero-card"
+                    key={character.id}
+                    onClick={() => characterDetail(character)}
+                  >
+                    <img
+                      src={
+                        character.thumbnail.path +
+                        "." +
+                        character.thumbnail.extension
+                      }
+                      alt={character.name}
+                    />
+                    <h3>{character.name}</h3>
+                  </button>
+                );
+              })}
         </div>
       </main>
     </div>
