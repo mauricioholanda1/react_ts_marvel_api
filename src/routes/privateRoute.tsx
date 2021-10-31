@@ -9,7 +9,7 @@ const PrivateRoute: React.FC<{
 }> = (props) => {
   const { user } = useAuth();
 
-  const condition = true;
+  const condition = user ? true : false;
 
   return condition ? (
     <Route path={props.path} exact={props.exact} component={props.component} />

@@ -2,5 +2,36 @@
   main {
     max-width: 800px;
     margin: 0 auto;
+
+    .chart-info {
+      display: flex;
+      margin-bottom: 20px;
+
+      img {
+        width: 40%;
+        height: 40%;
+        margin-right: 20px;
+      }
+
+      .infos {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .name {
+          font-size: 1.5rem;
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+        .description {
+          font-size: 1rem;
+          margin-bottom: 10px;
+        }
+        .extra-data {
+          font-size: 1rem;
+          margin-top: 10px;
+        }
+      }
+    }
   }
 }

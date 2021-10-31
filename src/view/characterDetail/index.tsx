@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import "./characterDetail.scss";
 import { useEffect, useState } from "react";
 import { getCharactersInfo } from "../../api/characters";
-import ExtraInfoDetail from "./components/extraInfoDetails/extraInfoDetails";
+// import ExtraInfoDetail from "./components/extraInfoDetails/extraInfoDetails";
+import { LoremIpsumText } from "../../components/DefaultTexts";
 
 type CharacterParams = {
   id: string;
@@ -38,6 +39,8 @@ export default function CharacterDetail() {
 
   const characterId = params.id;
 
+  console.log(character);
+
   useEffect(() => {
     getChar(characterId);
   }, [characterId]);
@@ -59,30 +62,40 @@ export default function CharacterDetail() {
   }
 
   return (
-    <div id="characterDetails-page">
-      <Header />
-      <main className="content">
-        <div>
-          <img
-            src={character.thumbnail.path + "." + character.thumbnail.extension}
-            alt={character.name}
-          />
-          <div className="infos">
-            <h1>{character.name}</h1>
-            <p>{character.description}</p>
-            {/* 
-            <p>comics: {character.comics.available}</p>
-            <p>series: {character.series.available}</p>
-            <p>stories: {character.stories.available}</p>
-            <p>events: {character.events.available}</p> */}
+    <>
+
+      <div id="characterDetails-page">
+        <Header />
+        <main className="content">
+          <div className="chart-info">
+            <img
+              src={
+                character.thumbnail.path + "." + character.thumbnail.extension
+              }
+              alt={character.name}
+            />
+            <div className="infos">
+              <h1 className="name">{character.name}</h1>
+              <p className="description">
+                {character.description ? character.description : LoremIpsumText}
+              </p>
+              <h4>Extra data</h4>
+              <p className="extra-data">Comics: {character.comics.available}</p>
+              <p className="extra-data">Series: {character.series.available}</p>
+              <p className="extra-data">
+                Stories: {character.stories.available}
+              </p>
+              <p className="extra-data">Events: {character.events.available}</p>
+            </div>
           </div>
-        </div>
-        <div className="comics"></div>
-        <p>Comics: {character.comics.available}</p>
-        {character.comics.items.map((item, index) => (
+          <div className="comics"></div>
+          {/* <p>Comics: {character.comics.available}</p>
+        {character.comics.items.slice(0, 5).map((item, index) => (
           <ExtraInfoDetail key={index} resourceURI={item.resourceURI} />
-        ))}
-      </main>
-    </div>
+        ))} */}
+        </main>
+      </div>
+    
+    </>
   );
 }
